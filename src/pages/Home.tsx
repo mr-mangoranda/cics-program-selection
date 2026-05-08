@@ -44,25 +44,25 @@ export default function Home({ onNavigate }: { onNavigate: (view: string) => voi
             <div className="flex flex-col sm:flex-row gap-6 w-full justify-center">
               
               {/* Card 1 */}
-              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_15px_40px_rgba(37,99,235,0.12)] hover:-translate-y-2 transition-all duration-300 w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square cursor-pointer group border-2 border-[#e0e7ff] hover:border-[#4f46e5]/50 relative z-10">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#f0f6ff] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0c5ade] transition-all duration-300">
-                  <Database className="w-8 h-8 text-[#0c5ade] group-hover:text-white transition-colors duration-300" strokeWidth={2.5} />
+              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square group border-2 border-[#e0e7ff] hover:border-[#e0e7ff] relative z-10 opacity-70">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#f0f6ff] flex items-center justify-center mb-4">
+                  <Database className="w-8 h-8 text-[#0c5ade]" strokeWidth={2.5} />
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-[#1f2937] text-center">IT – DATA BASE</h3>
               </div>
 
               {/* Card 2 (Lowered slightly) */}
-              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_15px_40px_rgba(79,70,229,0.12)] hover:-translate-y-2 transition-all duration-300 w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square lg:mt-6 cursor-pointer group border-2 border-[#e0e7ff] hover:border-[#4f46e5]/50 relative z-10">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#efeefe] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#4f46e5] transition-all duration-300">
-                  <Wifi className="w-8 h-8 text-[#4f46e5] group-hover:text-white transition-colors duration-300" strokeWidth={2.5} />
+              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square lg:mt-6 group border-2 border-[#e0e7ff] hover:border-[#e0e7ff] relative z-10 opacity-70">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#efeefe] flex items-center justify-center mb-4">
+                  <Wifi className="w-8 h-8 text-[#4f46e5]" strokeWidth={2.5} />
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-[#1f2937] text-center">IT – Networking</h3>
               </div>
 
               {/* Card 3 */}
-              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_15px_40px_rgba(217,70,239,0.12)] hover:-translate-y-2 transition-all duration-300 w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square cursor-pointer group border-2 border-[#e0e7ff] hover:border-[#4f46e5]/50 relative z-10">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#fdf2f8] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#c026d3] transition-all duration-300">
-                  <FileSpreadsheet className="w-8 h-8 text-[#c026d3] group-hover:text-white transition-colors duration-300" strokeWidth={2.5} />
+              <div className="bg-white rounded-3xl p-6 py-8 sm:py-6 flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full sm:w-[200px] xl:w-[220px] aspect-auto sm:aspect-square group border-2 border-[#e0e7ff] hover:border-[#e0e7ff] relative z-10 opacity-70">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#fdf2f8] flex items-center justify-center mb-4">
+                  <FileSpreadsheet className="w-8 h-8 text-[#c026d3]" strokeWidth={2.5} />
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-[#1f2937] text-center">Information System</h3>
               </div>
