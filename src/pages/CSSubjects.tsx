@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Search, BookOpen, Clock, UserCircle2, Hexagon as HexagonIcon, Lock } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { RoadmapHeader } from '../components/RoadmapHeader';
 import { subjectsData, timelineData } from '../data/subjects';
 
-export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) => void }) {
+export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) => void, key?: string }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSemester, setSelectedSemester] = useState<string>('All');
   
@@ -28,13 +29,24 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
   });
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden"
+    >
       
       <RoadmapHeader onNavigate={onNavigate} currentView="cssubjects" />
 
       <main className="flex-grow flex flex-col items-center w-full max-w-7xl mx-auto px-6 lg:px-12 z-10 relative pb-32">
         {/* Title Group */}
-        <div className="mt-8 mb-12 text-center z-10 w-full">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 20 }}
+          className="mt-8 mb-12 text-center z-10 w-full"
+        >
           <h1 
             className="text-4xl md:text-5xl lg:text-7xl font-black text-center text-[#0e5cdd] leading-tight mb-4"
             style={{ textShadow: "3px 3px 0px #cfdffd" }}
@@ -44,10 +56,15 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
           <p className="text-slate-500 font-medium max-w-2xl mx-auto">
             Browse through all the courses offered in the Computer Science program. Use the search bar to find specific subjects by code or keyword.
           </p>
-        </div>
+        </motion.div>
 
         {/* Search Bar */}
-        <div className="w-full max-w-2xl mb-8 relative">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 20, delay: 0.1 }}
+          className="w-full max-w-2xl mb-8 relative"
+        >
           <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-slate-400" />
           </div>
@@ -58,10 +75,15 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </motion.div>
 
         {/* Semester Tabs */}
-        <div className="w-full max-w-full overflow-x-auto pb-4 mb-4 -mx-6 px-6 lg:mx-0 lg:px-0 hide-scrollbar flex lg:flex-wrap justify-start lg:justify-center gap-2">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 20, delay: 0.2 }}
+          className="w-full max-w-full overflow-x-auto pb-4 mb-4 -mx-6 px-6 lg:mx-0 lg:px-0 hide-scrollbar flex lg:flex-wrap justify-start lg:justify-center gap-2"
+        >
           <button
             onClick={() => setSelectedSemester('All')}
             className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
@@ -85,10 +107,15 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
               {sem.semesterName.replace('Year,', 'Yr,').replace('Semester', 'Sem')}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Results Metadata */}
-        <div className="w-full flex justify-between items-center mb-6 pt-2 border-t border-slate-200/60">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="w-full flex justify-between items-center mb-6 pt-2 border-t border-slate-200/60"
+        >
           <div className="text-sm font-semibold text-slate-500">
             {filteredSubjects.length} {filteredSubjects.length === 1 ? 'subject' : 'subjects'} found
           </div>
@@ -98,11 +125,17 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
               return total + (match ? parseInt(match[1], 10) : 0);
             }, 0)} Total Units
           </div>
-        </div>
+        </motion.div>
 
         {/* Subjects Grid */}
+        <AnimatePresence mode="popLayout">
         {filteredSubjects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white/50 w-full max-w-3xl rounded-3xl border border-slate-200 border-dashed">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="flex flex-col items-center justify-center py-20 bg-white/50 w-full max-w-3xl rounded-3xl border border-slate-200 border-dashed"
+          >
             <BookOpen className="w-16 h-16 text-slate-300 mb-4" />
             <h3 className="text-xl font-bold text-slate-600 mb-2">No subjects found</h3>
             <p className="text-slate-500">We couldn't find anything matching "{searchQuery}"</p>
@@ -112,14 +145,27 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
             >
               Clear search
             </button>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {filteredSubjects.map(subject => {
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+          >
+            <AnimatePresence>
+            {filteredSubjects.map((subject, index) => {
               const hasPrereq = subject.prerequisites !== 'None';
               
               return (
-                <div key={subject.code} className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col group transition-all duration-300 hover:-translate-y-1">
+                <motion.div 
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 100, damping: 20, delay: index * 0.05 }}
+                  whileHover={{ y: -8 }}
+                  key={subject.code} 
+                  className="bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] border border-slate-100 flex flex-col group transition-all duration-300 relative"
+                >
                   {/* Card Header (Subject Code & Title) */}
                   <div className="p-6 pb-5 relative overflow-hidden" style={{ backgroundColor: `${subject.color}15` }}>
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -182,12 +228,14 @@ export default function CSSubjects({ onNavigate }: { onNavigate: (view: string) 
                       )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+            </AnimatePresence>
+          </motion.div>
         )}
+        </AnimatePresence>
       </main>
-    </div>
+    </motion.div>
   );
 }

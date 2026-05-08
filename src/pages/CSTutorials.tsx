@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Search, FileText, PlayCircle, Download, BookOpen, ArrowLeft, FileBox, LayoutList, ChevronRight, GraduationCap, Link as LinkIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { RoadmapHeader } from '../components/RoadmapHeader';
 import { subjectsData } from '../data/subjects';
 import { materialsData } from '../data/materials';
 
-export default function CSTutorials({ onNavigate }: { onNavigate: (view: string) => void }) {
+export default function CSTutorials({ onNavigate }: { onNavigate: (view: string) => void, key?: string }) {
   const [searchQuery, setSearchQuery] = useState('');
   const subjectsArray = Object.values(subjectsData);
   const [selectedSubjectCode, setSelectedSubjectCode] = useState<string | null>(null);
@@ -32,12 +33,26 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden"
+    >
       <RoadmapHeader onNavigate={onNavigate} currentView="cstutorials" />
 
       <main className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-6 lg:px-12 z-10 relative pb-20">
+        <AnimatePresence mode="wait">
         {!selectedSubject ? (
-          <>
+          <motion.div 
+            key="list"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            className="w-full flex flex-col"
+          >
             <div className="mt-8 mb-10 text-center lg:text-left">
               <h1 className="text-4xl md:text-5xl font-black text-[#0e5cdd] leading-tight mb-4" style={{ textShadow: "2px 2px 0px #cfdffd" }}>
                 LEARNING MATERIALS
@@ -61,7 +76,11 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
             </div>
 
             {filteredSubjects.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 bg-white/50 w-full max-w-3xl mx-auto rounded-3xl border border-slate-200 border-dashed">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-20 bg-white/50 w-full max-w-3xl mx-auto rounded-3xl border border-slate-200 border-dashed"
+              >
                 <BookOpen className="w-16 h-16 text-slate-300 mb-4" />
                 <h3 className="text-xl font-bold text-slate-600 mb-2">No subjects found</h3>
                 <p className="text-slate-500">We couldn't find anything matching "{searchQuery}"</p>
@@ -71,14 +90,20 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
                 >
                   Clear search
                 </button>
-              </div>
+              </motion.div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                {filteredSubjects.map(subject => (
-                  <button
+              <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                <AnimatePresence>
+                {filteredSubjects.map((subject, index) => (
+                  <motion.button
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 20, delay: index * 0.05 }}
+                    whileHover={{ y: -5 }}
                     key={subject.code}
                     onClick={() => setSelectedSubjectCode(subject.code)}
-                    className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all text-left group flex flex-col justify-between"
+                    className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_15px_30px_rgb(0,0,0,0.08)] transition-all text-left group flex flex-col justify-between"
                   >
                     <div>
                       <div className="inline-flex items-center rounded-md px-2 py-1 font-black text-[10px] tracking-wider mb-3" style={{ backgroundColor: `${subject.color}20`, color: subject.color }}>
@@ -90,13 +115,21 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
                     <div className="mt-4 flex items-center text-[#2563eb] font-semibold text-xs opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
                       View Materials <ChevronRight className="w-4 h-4 ml-1" />
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
-              </div>
+                </AnimatePresence>
+              </motion.div>
             )}
-          </>
+          </motion.div>
         ) : (
-          <div className="mt-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <motion.div 
+            key="detail"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            className="mt-4 duration-300"
+          >
             <button 
               onClick={() => setSelectedSubjectCode(null)}
               className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors mb-6"
@@ -142,20 +175,28 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
                 </h2>
                 
                 {courseContent.length === 0 ? (
-                  <div className="text-center py-12 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-12 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-sm"
+                  >
                     <FileBox className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                     <h3 className="text-lg font-bold text-slate-600">No materials yet</h3>
                     <p className="text-slate-500 text-sm">Learning materials for this subject are currently being prepared.</p>
-                  </div>
+                  </motion.div>
                 ) : (
-                  courseContent.map(material => (
-                    <a 
+                  courseContent.map((material, index) => (
+                    <motion.a 
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ type: 'spring', stiffness: 100, damping: 20, delay: index * 0.1 }}
+                      whileHover={{ x: 5 }}
                       key={material.id} 
                       href={material.url || '#'} 
                       target={material.type === 'link' ? "_blank" : undefined} 
                       rel={material.type === 'link' ? "noopener noreferrer" : undefined} 
                       download={material.type !== 'link'}
-                      className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 group cursor-pointer"
+                      className="bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 group cursor-pointer"
                     >
                       <div className="p-3 bg-slate-50 rounded-xl group-hover:bg-blue-50 transition-colors">
                         {getIconForType(material.type)}
@@ -170,12 +211,17 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
                       <div className="p-2 text-slate-400 group-hover:text-[#2563eb] group-hover:bg-blue-100 rounded-lg transition-colors shrink-0">
                         {material.type === 'link' ? <LinkIcon className="w-5 h-5" /> : <Download className="w-5 h-5" />}
                       </div>
-                    </a>
+                    </motion.a>
                   ))
                 )}
               </div>
 
-              <div className="space-y-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
+                className="space-y-6"
+              >
                 <div className="bg-[#2563eb] text-white rounded-3xl p-6 shadow-md relative overflow-hidden">
                   <div className="absolute -right-6 -top-6 opacity-10">
                     <BookOpen className="w-32 h-32" />
@@ -195,11 +241,12 @@ export default function CSTutorials({ onNavigate }: { onNavigate: (view: string)
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </main>
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BookOpen, Clock, UserCircle2, ChevronDown, Lock, Filter, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Hexagon } from '../components/Hexagon';
 import { TimelineCurve } from '../components/TimelineCurve';
 import { RoadmapHeader } from '../components/RoadmapHeader';
@@ -16,7 +17,7 @@ export interface SubjectDetails {
   color: string;
 }
 
-export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) => void }) {
+export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) => void, key?: string }) {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [selectedSemester, setSelectedSemester] = useState<string>('All');
   const [showFilters, setShowFilters] = useState(false);
@@ -47,14 +48,25 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
   }).filter(sem => sem.subjects.length > 0);
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-[100dvh] bg-gradient-to-br from-[#f6f3ff] via-[#f2f6ff] to-[#e1efff] font-sans text-slate-800 flex flex-col relative selection:bg-purple-200 w-full overflow-x-hidden"
+    >
       
       <RoadmapHeader onNavigate={onNavigate} />
 
       {/* Main Roadmap Area */}
       <main className="flex-grow flex flex-col items-center w-full max-w-5xl mx-auto px-4 z-10 relative pb-32">
         {/* Title */}
-        <div className="mt-8 mb-20 md:mb-24 text-center z-10">
+        <motion.div 
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 20 }}
+          className="mt-8 mb-20 md:mb-24 text-center z-10"
+        >
           <h1 
             className="text-5xl sm:text-6xl md:text-8xl font-black text-center text-[#9300d8] leading-[0.95]"
             style={{ textShadow: "5px 5px 0px #deafff" }}
@@ -62,20 +74,29 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
             <span className="block mb-2 md:mb-4">BS-COMPUTER</span>
             <span className="block">SCIENCE</span>
           </h1>
-        </div>
+        </motion.div>
 
         {/* Filter Details */}
         <div className="flex flex-col items-center mb-12 z-20 w-full px-4 relative">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setShowFilters(!showFilters)}
             className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors mb-2 text-slate-700 font-bold text-sm hover:shadow-md"
           >
             <Filter className="w-4 h-4" />
             {showFilters ? 'Hide Filters' : 'Show Filters'}
-          </button>
+          </motion.button>
 
+          <AnimatePresence>
           {showFilters && (
-            <div className="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in slide-in-from-top-4 fade-in duration-300 mt-4 relative">
+            <motion.div 
+              initial={{ opacity: 0, height: 0, y: -20 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/40 max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 relative overflow-hidden"
+            >
               {/* Semester Filter */}
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Semester</label>
@@ -175,8 +196,9 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
                    </button>
                 </div>
               )}
-            </div>
+            </motion.div>
           )}
+          </AnimatePresence>
         </div>
 
         {/* Timeline Flow */}
@@ -184,7 +206,7 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
           <TimelineCurve />
 
           {/* Fallback Timeline Line for mobile */}
-          <div className="absolute top-[40px] bottom-[100px] left-1/2 -translate-x-1/2 w-[3px] border-l-[3px] border-dashed border-[#4f46e5]/40 md:hidden -z-10" />
+          <div className="absolute top-[40px] bottom-[100px] left-[48px] sm:left-[55px] md:left-1/2 md:-translate-x-1/2 w-[3px] border-l-[3px] border-dashed border-[#4f46e5]/40 md:hidden -z-10" />
 
           {filteredTimeline.length === 0 ? (
             <div className="col-span-1 md:col-span-2 flex flex-col items-center justify-center py-20 text-center">
@@ -212,11 +234,16 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
             return (
               <React.Fragment key={sem.semesterName}>
                 {/* Semester Pill */}
-                <div className={`col-span-1 md:col-span-2 flex justify-center w-full z-10 ${semIndex === 0 ? 'mb-4 md:mb-8' : 'mt-12 md:mt-16 mb-4 md:mb-8'}`}>
-                  <div className="bg-white px-8 py-3.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100/50 hover:-translate-y-1 transition-transform">
-                    <span className="text-[#5145cd] text-xl sm:text-2xl font-bold tracking-tight text-center block whitespace-nowrap">{sem.semesterName}</span>
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  className={`col-span-1 md:col-span-2 flex justify-start md:justify-center w-full z-10 pl-[24px] sm:pl-[30px] md:pl-0 ${semIndex === 0 ? 'mb-4 md:mb-8' : 'mt-12 md:mt-16 mb-4 md:mb-8'}`}
+                >
+                  <div className="bg-white/80 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white/50 hover:-translate-y-1 transition-transform relative">
+                    <span className="text-[#5145cd] text-lg sm:text-2xl font-bold tracking-tight text-center block whitespace-nowrap">{sem.semesterName}</span>
                   </div>
-                </div>
+                </motion.div>
 
                 {sem.subjects.map((subjectKey, i) => {
                   const isLeft = (previousNodesCount + i) % 2 === 0;
@@ -228,19 +255,25 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
                     <React.Fragment key={subjectKey}>
                       {!isLeft && <div className="col-span-1 hidden md:block" />}
                       
-                      <div className={`col-span-1 flex justify-center w-full ${isLeft ? 'md:justify-end pr-0 md:pr-10 lg:pr-16' : 'md:justify-start pl-0 md:pl-10 lg:pl-16'} z-10 mt-0`}>
+                      <motion.div 
+                        initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ type: 'spring', stiffness: 60, damping: 15, delay: i * 0.1 }}
+                        className={`col-span-1 flex justify-start md:justify-center w-full ${isLeft ? 'md:justify-end pr-0 md:pr-10 lg:pr-16' : 'md:justify-start pl-0 md:pl-10 lg:pl-16'} z-10 mt-0`}
+                      >
                         <div 
-                          className={`flex flex-col items-center gap-4 sm:gap-6 w-[280px] sm:w-[320px] md:w-[380px] cursor-pointer group transition-all duration-300 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} ${isSelected ? 'scale-105 z-20' : 'hover:-translate-y-1 hover:scale-105 hover:opacity-90'}`}
+                          className={`flex flex-row items-center md:items-center gap-4 sm:gap-6 w-full max-w-[340px] sm:max-w-[400px] md:max-w-[380px] cursor-pointer group transition-all duration-300 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} ${isSelected ? 'scale-[1.02] md:scale-105 z-20' : 'hover:-translate-y-1 hover:scale-105 hover:opacity-90'}`}
                           onClick={() => setSelectedSubject(isSelected ? null : subjectKey)}
                         >
                           <div className="shrink-0 relative">
                             <Hexagon style={{ backgroundColor: subject.color }}>
-                              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-white" strokeWidth={2.5} />
+                              <BookOpen className="w-7 h-7 sm:w-10 sm:h-10 text-white" strokeWidth={2.5} />
                             </Hexagon>
                           </div>
 
-                          <div className={`text-center w-full ${isLeft ? 'md:text-left' : 'md:text-right'}`}>
-                            <div className="flex items-center justify-center md:justify-start gap-2 mb-1.5" style={{ flexDirection: isLeft ? 'row' : 'row-reverse' }}>
+                          <div className={`text-left w-full ${isLeft ? 'md:text-left' : 'md:text-right'} pt-1 md:pt-0`}>
+                            <div className={`flex items-center gap-2 mb-1.5 flex-row max-md:flex-wrap ${isLeft ? 'justify-start md:justify-start md:flex-row' : 'justify-start md:justify-end md:flex-row-reverse'}`}>
                               <div className="text-xs font-black tracking-widest uppercase opacity-90 transition-colors" style={{ color: subject.color }}>{subject.code}</div>
                               {hasPrereq && (
                                 <div className="relative group/tooltip flex items-center justify-center cursor-help">
@@ -258,7 +291,14 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
                             <div className={`text-base sm:text-lg md:text-xl font-bold text-slate-800 leading-tight ${isSelected ? 'mb-4' : 'mb-2'} group-hover:text-slate-900 transition-colors`}>{subject.title}</div>
                             
                             {isSelected && (
-                              <div className="text-left bg-white p-5 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 mt-3 text-sm text-slate-600 animate-in slide-in-from-top-2 fade-in duration-200 cursor-auto" onClick={e => e.stopPropagation()}>
+                              <motion.div 
+                                initial={{ opacity: 0, y: -10, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -10, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="text-left bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-[0_15px_40px_rgb(0,0,0,0.12)] border border-white/50 mt-3 text-sm text-slate-600 cursor-auto overflow-hidden text-shadow-sm" 
+                                onClick={e => e.stopPropagation()}
+                              >
                                 <p className="leading-relaxed mb-4">{subject.description}</p>
                                 
                                 <div className="space-y-3 pt-3 border-t border-slate-100">
@@ -292,11 +332,11 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </motion.div>
                             )}
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
 
                       {isLeft && <div className="col-span-1 hidden md:block" />}
                     </React.Fragment>
@@ -307,6 +347,6 @@ export default function CSRoadmap({ onNavigate }: { onNavigate: (view: string) =
           })}
         </div>
       </main>
-    </div>
+    </motion.div>
   );
 }
