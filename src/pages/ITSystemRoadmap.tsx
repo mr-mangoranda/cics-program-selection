@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, X, ArrowLeft, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { itsysSubjectsData as subjectsData, itsysTimelineData as timelineData } from '../data/BSIS-Subjects';
+import { itsysSubjectsData as subjectsData, itsysTimelineData as timelineData } from '../data/itSystemSubjects';
 
 const HEX_COLORS = ['#4F6BF5', '#F5A623', '#E040FB', '#00C4A7', '#FF5C7A', '#43C759'];
 

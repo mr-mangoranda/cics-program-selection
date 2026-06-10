@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import CSRoadmap from './pages/CSRoadmap';
 import CSSubjects from './pages/CSSubjects';
 import CSTutorials from './pages/CSTutorials';
-import BSISRoadmap from './pages/BSIS-Roadmap';
+import ITSystemRoadmap from './pages/ITSystemRoadmap';
 
 export default function App() {
   const [view, setView] = useState<any>('home');
@@ -15,7 +15,7 @@ export default function App() {
       {view === 'roadmap' && <CSRoadmap key="roadmap" onNavigate={setView} />}
       {view === 'cssubjects' && <CSSubjects key="cssubjects" onNavigate={setView} />}
       {view === 'cstutorials' && <CSTutorials key="cstutorials" onNavigate={setView} />}
-      {view === 'bsis-roadmap' && <BSISRoadmap key="it-system-roadmap" onNavigate={setView} />}
+      {view === 'it-system-roadmap' && <ITSystemRoadmap key="it-system-roadmap" onNavigate={setView} />}
 
     </AnimatePresence>
   );
