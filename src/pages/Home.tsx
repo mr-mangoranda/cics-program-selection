@@ -60,8 +60,8 @@ export default function Home({ onNavigate }: { onNavigate: (view: string) => voi
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-center text-[#0e5cdd] leading-[1.1] mb-3 lg:mb-5"
             style={{ textShadow: "4px 4px 0px #cfdffd" }}
           >
-            <span className="block whitespace-normal sm:whitespace-nowrap">CHOOSE YOUR</span>
-            <span className="block whitespace-normal sm:whitespace-nowrap">PROGRAM FRESHIEE!!</span>
+            <span className="block whitespace-normal sm:whitespace-nowrap">ANO TARA?</span>
+            <span className="block whitespace-normal sm:whitespace-nowrap">COMSCIE FRESHMEN!?!</span>
           </motion.h1>
 
           {/* Subtitle */}

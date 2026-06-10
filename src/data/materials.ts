@@ -19,7 +19,7 @@ export interface SubjectMaterial {
 export const materialsData: Record<string, SubjectMaterial[]> = {
   'CCC100': [
     // This is an example of a real file path. The file should be at project-root/public/materials/CCC100_Syllabus.pdf
-    { id: 'ccc100-syl', title: 'Course Syllabus', type: 'syllabus', size: '150 KB', url: '/materials/CCC100_Syllabus.pdf', dateAdded: 'Aug 10' },
+    { id: 'ccc100-syl', title: 'Course Syllabus', type: 'syllabus', size: '150 KB', url: './../materials/CCC100 - LECTURE 01.pdf', dateAdded: 'Aug 10' },
     { id: 'ccc100-w1v', title: 'Week 1: Introduction to CS and Computing', type: 'video', size: '35 mins', url: 'https://youtube.com', dateAdded: 'Aug 15' },
     { id: 'ccc100-w1d', title: 'Week 1: Reading Material & Background', type: 'document', size: '1.2 MB', url: '#', dateAdded: 'Aug 15' },
     { id: 'ccc100-w2v', title: 'Week 2: Hardware vs Software Basics', type: 'video', size: '42 mins', url: '#', dateAdded: 'Aug 22' },
