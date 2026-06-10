@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import CSRoadmap from './pages/CSRoadmap';
 import CSSubjects from './pages/CSSubjects';
 import CSTutorials from './pages/CSTutorials';
+import BSIS-Roadmap from './pages/BSIS-Roadmap';
 
 export default function App() {
   const [view, setView] = useState<any>('home');
@@ -14,6 +15,8 @@ export default function App() {
       {view === 'roadmap' && <CSRoadmap key="roadmap" onNavigate={setView} />}
       {view === 'cssubjects' && <CSSubjects key="cssubjects" onNavigate={setView} />}
       {view === 'cstutorials' && <CSTutorials key="cstutorials" onNavigate={setView} />}
+      {view === 'BSIS-Roadmap' && <BSIS-Roadmap key="BSIS-Roadmap" onNavigate={setView} />}
+
     </AnimatePresence>
   );
 }
