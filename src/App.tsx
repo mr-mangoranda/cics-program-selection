@@ -15,7 +15,7 @@ export default function App() {
       {view === 'roadmap' && <CSRoadmap key="roadmap" onNavigate={setView} />}
       {view === 'cssubjects' && <CSSubjects key="cssubjects" onNavigate={setView} />}
       {view === 'cstutorials' && <CSTutorials key="cstutorials" onNavigate={setView} />}
-      {view === 'bsis-roadmap' && <BSISRoadmap key="bsis-roadmap" onNavigate={setView} />}
+      {view === 'bsis-roadmap' && <BSISRoadmap key="it-system-roadmap" onNavigate={setView} />}
 
     </AnimatePresence>
   );
